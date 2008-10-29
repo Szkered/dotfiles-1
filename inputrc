@@ -1,0 +1,13 @@
+
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+"\eo": "\C-p\C-a\ef "
+
+$if Bash
+	Space: magic-space
+$endif
+
+set convert-meta off
+set input-meta on
+set output-meta on

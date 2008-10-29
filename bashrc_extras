@@ -1,0 +1,8 @@
+
+alias la='ls -lA'
+alias ipython='ipython -pylab -p math'
+export PYTHONPATH="$HOME/work/python"
+export PATH="$PATH:$HOME/bin"
+
+shopt -s histappend
+PROMPT_COMMAND='history -a'
