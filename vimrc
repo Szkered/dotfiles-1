@@ -13,8 +13,8 @@ set nocompatible						" Don't be compatible with vi
 
 """" Movement
 " work more logically with wrapped lines
-noremap j gj
-noremap k gk
+"noremap j gj
+"noremap k gk
 
 """" Searching and Patterns
 set ignorecase							" search is case insensitive
@@ -29,7 +29,7 @@ set scrolloff=3							" Keep 3 lines below and above the cursor
 set ruler								" line numbers and column the cursor is on
 "set number								" Show line numbering
 set numberwidth=1						" Use 1 col + 1 space for numbers
-colorscheme tango						" Use tango colors
+"colorscheme tango						" Use tango colors
 
 " tab labels show the filename without path(tail)
 set guitablabel=%N/\ %t\ %M
@@ -70,7 +70,7 @@ filetype plugin indent on				" Let filetype plugins indent for me
 syntax on								" Turn on syntax highlighting
 
 " set up tags
-set tags=tags;/
+"set tags=tags;/
 " set tags+=$HOME/.vim/tags/python.ctags
 
 """"" Folding
@@ -127,7 +127,7 @@ au!
 
 	" allows us to run :make and get syntax errors for our python scripts
 	au FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
-	autocmd FileTYpe python set list listchars=tab:»·,trail:·
+	autocmd FileTYpe python set list listchars=tab:Â»Â·,trail:Â·
 
 	" setup file type for code snippets (DISABLED BECAUSE IT CONFLICTS WITH
 	" THE DETECT WHITESPACE PLUGIN
@@ -226,13 +226,95 @@ endfunc
 
 let g:TabIndentStyle = "emacs"
 
-let g:tskelUserName = "Russell Sim"
-let g:tskelUserEmail = "russell.sim@jcu.edu.au"
-let g:tskelUserWWW = "http://eresearch.edu.au"
+let g:tskelUserName = "Daniel Cocks"
+let g:tskelUserEmail = "daniel.cocks@jcu.edu.au"
+let g:tskelUserWWW = "empty"
 
-iabbr _me Russell Sim (russell.sim@jcu.edu.au)<C-R>=EatChar('\s')<CR>
+iabbr _me Daniel Cocks (daniel.cocks@jcu.edu.au)<C-R>=EatChar('\s')<CR>
 iabbr _t  <C-R>=strftime("%H:%M:%S")<CR><C-R>=EatChar('\s')<CR>
 iabbr _d  <C-R>=strftime("%a, %d %b %Y")<CR><C-R>=EatChar('\s')<CR>
 iabbr _dt <C-R>=strftime("%a, %d %b %Y %H:%M:%S %z")<CR><C-R>=EatChar('\s')<CR>
 
 endif
+
+
+""" Danny stuff added here
+set modeline
+colorscheme danny
+set showmode 
+set number
+set mousemodel=popup
+set backup
+"set backupdir-=.
+" Fix Y so it behaves as expected
+map Y y$
+
+"filetype indent on
+
+
+" GLSL filetypes
+au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl,*.fragment,*.vertex setf glsl
+
+" header tags
+set tags+=$HOME/src/systemtags
+
+"map _u :echo expand("<cword>")<CR>
+map <C-L> :execute ":ptag " expand("<cword>")<CR>
+map <C-K> :ptnext<CR>
+map <C-Insert> :execute ":ptjump " expand("<cword>")<CR>
+map <C-j> :cnext<CR>
+
+
+" When really desperate
+set printoptions=paper:a4,left:2pc,right:2pc,top:2pc,bottom:2pc,number:y,syntax:n
+set printfont=courier:h8
+
+
+au FileType python set formatoptions=croql
+" Stolen from the pida web
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+set autowrite
+
+autocmd FileType help nnoremap <CR> <C-]>
+autocmd FileType help nnoremap <BS> <C-T>
+
+" Make the tab key useful {{{
+function TabWrapper()
+  if strpart(getline('.'), 0, col('.')-1) =~ '^\s*$'
+    return "\<Tab>"
+  elseif exists('&omnifunc') && &omnifunc != ''
+    return "\<C-X>\<C-O>"
+  else
+    return "\<C-N>"
+  endif
+endfunction
+autocmd FileType cpp,python imap <Tab> <C-R>=TabWrapper()<CR>
+
+let g:rainbow         = 1
+"let g:rainbow_nested  = 1
+let g:rainbow_paren   = 1
+let g:rainbow_brace   = 1
+let g:rainbow_bracket = 1
+autocmd BufReadPost * source $HOME/.vim/rainbow_paren.vim
+autocmd BufNewFile  * source $HOME/.vim/rainbow_paren.vim
+
+imap <f3> <C-x><C-o><C-p>
+
+map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+map <silent> <F5> :TlistToggle<CR>
+map <silent> <F6> :TlistAddFiles *.cpp<CR>:TlistAddFiles *.h<CR>
+
+let Tlist_File_Fold_Auto_Close=1
+let Tlist_Compact_Format=1
+
+" allow shift left/right to do select mode stuff
+"set selectmode+=key
+
+" my C++ programming shortcuts
+autocmd FileType cpp map <M-1> o<C-U><Esc>70i/<Esc>
+autocmd FileType cpp map <M-2> <M-1>o<C-U>//---<Esc><M-1>
+
+" alternative (not working)
+iabbr _// //////////////////////////////////////////////////////////////////////<C-R>=EatChar('\s')<CR>
+iabbr _//- //////////////////////////////////////////////////////////////////////<CR>//---															 ---//<CR>//////////////////////////////////////////////////////////////////////<C-R>=EatChar('\s')<CR>
