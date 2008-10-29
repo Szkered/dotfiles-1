@@ -48,7 +48,8 @@ set ruler								" Show pos below the win if there's no status line
 set laststatus=2						" Always show statusline, even if only 1 window
 set report=0							" Notify me whenever any lines have changed
 set confirm								" Y-N-C prompt if closing with unsaved changes
-set vb t_vb=							" Disable visual bell!  I hate that flashing.
+" This doesn't work for me! It turns the bell on for me
+"set vb t_vb=							" Disable visual bell!  I hate that flashing.
 
 """" Editing
 set backspace=2							" Backspace over anything! (Super backspace!)
@@ -242,7 +243,6 @@ endif
 set modeline
 colorscheme danny
 set showmode 
-set number
 set mousemodel=popup
 set backup
 "set backupdir-=.
